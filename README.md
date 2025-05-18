@@ -17,7 +17,7 @@ composer require loomlabs/router-component
 
 # Usage
 
-```shell
+```php
 use Loom\DependencyInjectionComponent\DependencyContainer;
 use Loom\DependencyInjectionComponent\DependencyManager;
 use Loom\HttpComponent\Request;
