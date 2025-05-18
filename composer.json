@@ -8,9 +8,22 @@
       "Loom\\Router\\": "src/"
     }
   },
+  "autoload-dev": {
+    "psr-4": {
+      "Loom\\Router\\Tests\\": "tests/"
+    }
+  },
+  "scripts": {
+    "test": "php -d xdebug.mode=coverage ./vendor/bin/phpunit --testdox --colors=always --coverage-html coverage --coverage-clover coverage/coverage.xml --testdox-html coverage/testdox.html && composer badge",
+    "badge": "./vendor/bin/badger badge:version . && ./vendor/bin/badger badge:coverage . && ./vendor/bin/badger badge:license ."
+  },
   "license": "GPL-3.0-or-later",
   "require": {
     "loomlabs/http-component": "^1.0",
     "loomlabs/dependency-injection-component": "^1.0"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "^12.1",
+    "loomlabs/badger": "^1.0"
   }
 }

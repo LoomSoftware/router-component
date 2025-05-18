@@ -3,4 +3,5 @@
 /.DS_Store
 /vendor
 /composer.lock
-/public
+/coverage
+/.phpunit.result.cache

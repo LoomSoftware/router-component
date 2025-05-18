@@ -1,0 +1,11 @@
+routes:
+  index:
+    path: /
+    handler: Loom\Router\Tests\Controller\IndexController::index
+  page:
+    path: /page/{page}
+    handler: Loom\Router\Tests\Controller\PageController::show
+  edit.edit:
+    path: /page/{page}/edit
+    handler: Loom\Router\Tests\Controller\PageController::edit
+    method: [GET, POST]
