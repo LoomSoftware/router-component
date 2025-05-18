@@ -14,6 +14,7 @@ use Loom\HttpComponent\Uri;
 use Loom\Router\Router;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
+use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 
 class RouterTest extends TestCase
@@ -52,19 +53,15 @@ class RouterTest extends TestCase
         $router->loadRoutesFromFile($filePath);
     }
 
-    public function testHandleRequest(): void
+    #[DataProvider('requestDataProvider')]
+    public function testHandleRequest(RequestInterface $request, int $expectedStatusCode): void
     {
         $router = new Router($this->container);
         $router->loadRoutesFromFile(__DIR__. '/Config/routes.yaml');
 
-        $request = new Request(
-            method: 'POST',
-            uri: new Uri('http', 'localhost', '/non-existent-route', '')
-        );
-
         $response = $router->handleRequest($request);
 
-        self::assertEquals(404, $response->getStatusCode());
+        self::assertEquals($expectedStatusCode, $response->getStatusCode());
     }
 
     public static function invalidYamlDataProvider(): array
@@ -79,8 +76,18 @@ class RouterTest extends TestCase
         ];
     }
 
-    private function get404Response(): ResponseInterface
+    public static function requestDataProvider(): array
     {
-        return new Response(404, 'Not Found', ['Content-Type' => 'text/html'], StreamBuilder::build('Not Found'));
+        return [
+            'Should return 404 Response' => [
+                'request' => RouterTest::createRequest('POST', '/non_existent_route'),
+                'expectedStatusCode' => 404,
+            ],
+        ];
+    }
+
+    public static function createRequest(string $method, string $uri, string $query = ''): RequestInterface
+    {
+        return new Request(method: $method, uri: new Uri('http', 'localhost', $uri, $query));
     }
 }
