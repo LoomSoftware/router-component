@@ -8,4 +8,4 @@ routes:
   edit.edit:
     path: /page/{page}/edit
     handler: Loom\Router\Tests\Controller\PageController::edit
-    method: [GET, POST]
+    methods: [GET, POST]
