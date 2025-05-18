@@ -1,0 +1,16 @@
+{
+  "name": "loomlabs/router",
+  "description": "A PHP routing component.",
+  "version": "1.0.0",
+  "type": "library",
+  "autoload": {
+    "psr-4": {
+      "Loom\\Router\\": "src/"
+    }
+  },
+  "license": "GPL-3.0-or-later",
+  "require": {
+    "loomlabs/http-component": "^1.0",
+    "loomlabs/dependency-injection-component": "^1.0"
+  }
+}
