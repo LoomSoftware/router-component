@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Loom\Router;
+namespace Loom\RouterComponent;
 
 use Loom\HttpComponent\Response;
 use Loom\HttpComponent\StreamBuilder;
-use Loom\Router\Interface\RouteInterface;
+use Loom\RouterComponent\Interface\RouteInterface;
 use Psr\Container\ContainerInterface;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;

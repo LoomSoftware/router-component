@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Loom\Router\Interface;
+namespace Loom\RouterComponent\Interface;
 
 use Psr\Container\ContainerInterface;
 use Psr\Http\Message\RequestInterface;

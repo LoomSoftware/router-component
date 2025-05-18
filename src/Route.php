@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Loom\Router;
+namespace Loom\RouterComponent;
 
-use Loom\Router\Interface\RouteInterface;
+use Loom\RouterComponent\Interface\RouteInterface;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\ContainerInterface;
 use Psr\Http\Message\RequestInterface;

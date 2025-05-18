@@ -1,16 +1,16 @@
 {
-  "name": "loomlabs/router",
+  "name": "loomlabs/router-component",
   "description": "A PHP routing component.",
   "version": "1.0.0",
   "type": "library",
   "autoload": {
     "psr-4": {
-      "Loom\\Router\\": "src/"
+      "Loom\\RouterComponent\\": "src/"
     }
   },
   "autoload-dev": {
     "psr-4": {
-      "Loom\\Router\\Tests\\": "tests/"
+      "Loom\\RouterComponent\\Tests\\": "tests/"
     }
   },
   "scripts": {
@@ -19,11 +19,11 @@
   },
   "license": "GPL-3.0-or-later",
   "require": {
-    "loomlabs/http-component": "^1.0",
-    "loomlabs/dependency-injection-component": "^1.0"
+    "loomlabs/http-component": "^1.0"
   },
   "require-dev": {
     "phpunit/phpunit": "^12.1",
-    "loomlabs/badger": "^1.0"
+    "loomlabs/badger": "^1.0",
+    "loomlabs/dependency-injection-component": "^1.0"
   }
 }

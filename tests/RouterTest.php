@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace Loom\Router\Tests;
+namespace Loom\RouterComponent\Tests;
 
 use Loom\DependencyInjectionComponent\DependencyContainer;
 use Loom\DependencyInjectionComponent\DependencyManager;
 use Loom\DependencyInjectionComponent\Exception\NotFoundException;
 use Loom\HttpComponent\Request;
 use Loom\HttpComponent\Uri;
-use Loom\Router\Router;
+use Loom\RouterComponent\Router;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerExceptionInterface;

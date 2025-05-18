@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Loom\Router\Tests\Controller;
+namespace Loom\RouterComponent\Tests\Controller;
 
 use Loom\HttpComponent\Response;
 use Loom\HttpComponent\StreamBuilder;

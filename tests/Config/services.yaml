@@ -1,5 +1,5 @@
 services:
-  Loom\Router\Tests\Controller\IndexController:
-    class: Loom\Router\Tests\Controller\IndexController
-  Loom\Router\Tests\Controller\PageController:
-    class: Loom\Router\Tests\Controller\PageController
+  Loom\RouterComponent\Tests\Controller\IndexController:
+    class: Loom\RouterComponent\Tests\Controller\IndexController
+  Loom\RouterComponent\Tests\Controller\PageController:
+    class: Loom\RouterComponent\Tests\Controller\PageController

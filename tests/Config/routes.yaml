@@ -1,17 +1,17 @@
 routes:
   index:
     path: /
-    handler: Loom\Router\Tests\Controller\IndexController::index
+    handler: Loom\RouterComponent\Tests\Controller\IndexController::index
   page.show:
     path: /page/{page}
-    handler: Loom\Router\Tests\Controller\PageController::show
+    handler: Loom\RouterComponent\Tests\Controller\PageController::show
   page.edit:
     path: /page/{page}/edit
-    handler: Loom\Router\Tests\Controller\PageController::edit
+    handler: Loom\RouterComponent\Tests\Controller\PageController::edit
     methods: [GET, POST]
   controller.invalid:
     path: /invalid-controller
-    handler: Loom\Router\Tests\Controller\InvalidController::show
+    handler: Loom\RouterComponent\Tests\Controller\InvalidController::show
   method.invalid:
     path: /invalid-method
-    handler: Loom\Router\Tests\Controller\IndexController::show
+    handler: Loom\RouterComponent\Tests\Controller\IndexController::show

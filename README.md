@@ -8,3 +8,34 @@
 <!-- License Badge -->
 <img src="https://img.shields.io/badge/License-GPL--3.0--or--later-40adbc" alt="License GPL-3.0-or-later">
 </p>
+
+# Installation
+
+```shell
+composer require loomlabs/router-component
+```
+
+# Usage
+
+```shell
+use Loom\DependencyInjectionComponent\DependencyContainer;
+use Loom\DependencyInjectionComponent\DependencyManager;
+use Loom\HttpComponent\Request;
+use Loom\HttpComponent\Uri;
+use Loom\RoutingComponent\Router;
+
+$container = new DependencyContainer();
+$dependencyManager = new DependencyManager($container);
+$dependencyManager->loadDependenciesFromFile(__DIR__ . '/config/services.yaml');
+
+$router = new Router($container);
+
+$router->loadRoutesFromFile(__DIR__ . '/config/routes.yaml');
+
+$request = new Request(
+  'GET',
+  new Uri('http', 'localhost', $uri, $query)
+);
+  
+echo $router->handleRequest()->getBody()->getContents();
+```
