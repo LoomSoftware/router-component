@@ -42,7 +42,7 @@ final class Router
     }
 
     /**
-     * @throws ContainerExceptionInterface|NotFoundExceptionInterface
+     * @throws ContainerExceptionInterface|\InvalidArgumentException|NotFoundExceptionInterface
      */
     public function handleRequest(RequestInterface $request): ResponseInterface
     {

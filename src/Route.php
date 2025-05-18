@@ -11,12 +11,16 @@ use Psr\Container\NotFoundExceptionInterface;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 
-class Route implements RouteInterface
+final class Route implements RouteInterface
 {
     protected ContainerInterface $container;
 
-    public function __construct(protected string $name, protected string $path, protected string $handler, protected array $methods = ['GET'])
-    {
+    public function __construct(
+        protected string $name,
+        protected string $path,
+        protected string $handler,
+        protected array $methods = ['GET']
+    ) {
     }
 
     public function setContainer(ContainerInterface $container): void
@@ -40,7 +44,7 @@ class Route implements RouteInterface
     }
 
     /**
-     * @throws ContainerExceptionInterface|NotFoundExceptionInterface
+     * @throws ContainerExceptionInterface|\InvalidArgumentException|NotFoundExceptionInterface
      */
     public function callHandler(RequestInterface $request, array $args): ResponseInterface
     {
