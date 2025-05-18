@@ -7,7 +7,6 @@ namespace Loom\Router;
 use Loom\Router\Interface\RouteInterface;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\ContainerInterface;
-use Psr\Container\NotFoundExceptionInterface;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 
@@ -44,7 +43,7 @@ final class Route implements RouteInterface
     }
 
     /**
-     * @throws ContainerExceptionInterface|\InvalidArgumentException|NotFoundExceptionInterface
+     * @throws ContainerExceptionInterface|\InvalidArgumentException
      */
     public function callHandler(RequestInterface $request, array $args): ResponseInterface
     {

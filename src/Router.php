@@ -19,7 +19,7 @@ final class Router
      */
     private array $routes = [];
 
-    public function __construct(private ContainerInterface $container)
+    public function __construct(private readonly ContainerInterface $container)
     {
     }
 
