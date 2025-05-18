@@ -42,7 +42,7 @@ class Route implements RouteInterface
     /**
      * @throws ContainerExceptionInterface|NotFoundExceptionInterface
      */
-    public function callHandler(RequestInterface $request): ResponseInterface
+    public function callHandler(RequestInterface $request, array $args): ResponseInterface
     {
         $handler = explode('::', $this->handler);
         $controllerString = $handler[0];
@@ -58,6 +58,6 @@ class Route implements RouteInterface
             throw new \InvalidArgumentException(sprintf('Method "%s::%s" does not exist.', $controllerString, $method));
         }
 
-        return $controller->$method($request);
+        return $controller->$method($request, ...$args);
     }
 }

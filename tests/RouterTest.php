@@ -8,8 +8,6 @@ use Loom\DependencyInjectionComponent\DependencyContainer;
 use Loom\DependencyInjectionComponent\DependencyManager;
 use Loom\DependencyInjectionComponent\Exception\NotFoundException;
 use Loom\HttpComponent\Request;
-use Loom\HttpComponent\Response;
-use Loom\HttpComponent\StreamBuilder;
 use Loom\HttpComponent\Uri;
 use Loom\Router\Router;
 use PHPUnit\Framework\Attributes\DataProvider;
@@ -17,7 +15,6 @@ use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
 use Psr\Http\Message\RequestInterface;
-use Psr\Http\Message\ResponseInterface;
 
 class RouterTest extends TestCase
 {
@@ -59,7 +56,7 @@ class RouterTest extends TestCase
      * @throws ContainerExceptionInterface|NotFoundExceptionInterface
      */
     #[DataProvider('requestDataProvider')]
-    public function testHandleRequest(RequestInterface $request, int $expectedStatusCode): void
+    public function testHandleRequest(RequestInterface $request, int $expectedStatusCode, string $responseText): void
     {
         $router = new Router($this->container);
         $router->loadRoutesFromFile(__DIR__. '/Config/routes.yaml');
@@ -67,6 +64,7 @@ class RouterTest extends TestCase
         $response = $router->handleRequest($request);
 
         self::assertEquals($expectedStatusCode, $response->getStatusCode());
+        self::assertEquals($responseText, $response->getBody()->getContents());
     }
 
     /**
@@ -113,11 +111,23 @@ class RouterTest extends TestCase
             'Should return 404 Response' => [
                 'request' => RouterTest::createRequest('POST', '/non_existent_route'),
                 'expectedStatusCode' => 404,
+                'responseText' => 'Not Found',
             ],
-            'Should return 200 Response' => [
+            'Static path, should return 200 Response' => [
                 'request' => RouterTest::createRequest('GET', '/'),
                 'expectedStatusCode' => 200,
+                'responseText' => 'Hello, World!',
             ],
+            'Dynamic path, should return 200 Response' => [
+                'request' => RouterTest::createRequest('GET', '/page/about'),
+                'expectedStatusCode' => 200,
+                'responseText' => 'Page: about',
+            ],
+            'Editing dynamic path, should return 200 Response' => [
+                'request' => RouterTest::createRequest('GET', '/page/123/edit'),
+                'expectedStatusCode' => 200,
+                'responseText' => 'Editing Page: 123',
+            ]
         ];
     }
 

@@ -1,3 +1,6 @@
 services:
   Loom\Router\Tests\Controller\IndexController:
     class: Loom\Router\Tests\Controller\IndexController
+
+  Loom\Router\Tests\Controller\PageController:
+    class: Loom\Router\Tests\Controller\PageController

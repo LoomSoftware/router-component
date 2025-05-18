@@ -53,8 +53,12 @@ final class Router
                 continue;
             }
 
-            if (preg_match($this->generateRoutePattern($route->getPath()), $requestPath)) {
-                return $route->callHandler($request);
+            if (preg_match($this->generateRoutePattern($route->getPath()), $requestPath, $matches)) {
+                $args = array_filter($matches, function ($key) {
+                    return !is_numeric($key);
+                }, ARRAY_FILTER_USE_KEY);
+
+                return $route->callHandler($request, $args);
             }
         }
 
