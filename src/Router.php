@@ -6,7 +6,9 @@ namespace Loom\Router;
 
 use Loom\HttpComponent\Response;
 use Loom\HttpComponent\StreamBuilder;
+use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\ContainerInterface;
+use Psr\Container\NotFoundExceptionInterface;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 use Symfony\Component\Yaml\Yaml;
@@ -18,7 +20,7 @@ final class Router
      */
     private array $routes = [];
 
-    public function __construct(ContainerInterface $container)
+    public function __construct(private ContainerInterface $container)
     {
     }
 
@@ -39,6 +41,9 @@ final class Router
         }
     }
 
+    /**
+     * @throws ContainerExceptionInterface|NotFoundExceptionInterface
+     */
     public function handleRequest(RequestInterface $request): ResponseInterface
     {
         $requestPath = strtok($request->getUri()->getPath(), '?');
@@ -46,6 +51,10 @@ final class Router
         foreach  ($this->routes as $route) {
             if (!$route->isMethodAllowed($request->getMethod())) {
                 continue;
+            }
+
+            if (preg_match($this->generateRoutePattern($route->getPath()), $requestPath)) {
+                return $route->callHandler($request);
             }
         }
 
@@ -60,6 +69,7 @@ final class Router
     private function addRoute(string $name, array $routeData): void
     {
         $route = new Route($name, $routeData['path'], $routeData['handler'], $routeData['methods'] ?? ['GET']);
+        $route->setContainer($this->container);
 
         $this->routes[] = $route;
     }
@@ -72,5 +82,14 @@ final class Router
             headers: ['Content-Type' => 'text/html'],
             body: StreamBuilder::build('Not Found')
         );
+    }
+
+    private function generateRoutePattern(string $routePath): string
+    {
+        $routePath = preg_replace_callback('/{([^}]+)}/', function ($matches) {
+            return '(?P<' . $matches[1] . '>[^/]+)';
+        }, $routePath);
+
+        return "#^{$routePath}$#";
     }
 }

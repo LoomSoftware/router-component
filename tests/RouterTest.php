@@ -14,6 +14,8 @@ use Loom\HttpComponent\Uri;
 use Loom\Router\Router;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
+use Psr\Container\ContainerExceptionInterface;
+use Psr\Container\NotFoundExceptionInterface;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 
@@ -37,7 +39,7 @@ class RouterTest extends TestCase
 
         $router->loadRoutesFromFile(__DIR__ . '/Config/routes.yaml');
 
-        self::assertCount(3, $router->getRoutes());
+        self::assertCount(5, $router->getRoutes());
         self::assertEquals('index', $router->getRoutes()[0]->getName());
         self::assertEquals('/', $router->getRoutes()[0]->getPath());
         self::assertFalse($router->getRoutes()[0]->isMethodAllowed('POST'));
@@ -53,6 +55,9 @@ class RouterTest extends TestCase
         $router->loadRoutesFromFile($filePath);
     }
 
+    /**
+     * @throws ContainerExceptionInterface|NotFoundExceptionInterface
+     */
     #[DataProvider('requestDataProvider')]
     public function testHandleRequest(RequestInterface $request, int $expectedStatusCode): void
     {
@@ -62,6 +67,20 @@ class RouterTest extends TestCase
         $response = $router->handleRequest($request);
 
         self::assertEquals($expectedStatusCode, $response->getStatusCode());
+    }
+
+    /**
+     * @throws ContainerExceptionInterface|NotFoundExceptionInterface
+     */
+    #[DataProvider('invalidRouteConfigDataProvider')]
+    public function testHandleRequestWithInvalidRouteConfig(RequestInterface $request): void
+    {
+        $router = new Router($this->container);
+        $router->loadRoutesFromFile(__DIR__. '/Config/routes.yaml');
+
+        self::expectException(\InvalidArgumentException::class);
+
+        $router->handleRequest($request);
     }
 
     public static function invalidYamlDataProvider(): array
@@ -76,12 +95,28 @@ class RouterTest extends TestCase
         ];
     }
 
+    public static function invalidRouteConfigDataProvider(): array
+    {
+        return [
+            'Controller does not exist' => [
+                'request' => RouterTest::createRequest('GET', '/invalid-controller'),
+            ],
+            'Method does not exist' => [
+                'request' => RouterTest::createRequest('GET', '/invalid-method'),
+            ],
+        ];
+    }
+
     public static function requestDataProvider(): array
     {
         return [
             'Should return 404 Response' => [
                 'request' => RouterTest::createRequest('POST', '/non_existent_route'),
                 'expectedStatusCode' => 404,
+            ],
+            'Should return 200 Response' => [
+                'request' => RouterTest::createRequest('GET', '/'),
+                'expectedStatusCode' => 200,
             ],
         ];
     }

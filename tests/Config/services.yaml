@@ -1,0 +1,3 @@
+services:
+  Loom\Router\Tests\Controller\IndexController:
+    class: Loom\Router\Tests\Controller\IndexController
