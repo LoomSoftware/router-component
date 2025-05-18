@@ -6,9 +6,8 @@ namespace Loom\Router;
 
 use Loom\HttpComponent\Response;
 use Loom\HttpComponent\StreamBuilder;
-use Psr\Container\ContainerExceptionInterface;
+use Loom\Router\Interface\RouteInterface;
 use Psr\Container\ContainerInterface;
-use Psr\Container\NotFoundExceptionInterface;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 use Symfony\Component\Yaml\Yaml;
@@ -16,7 +15,7 @@ use Symfony\Component\Yaml\Yaml;
 final class Router
 {
     /**
-     * @var Route[]
+     * @var RouteInterface[]
      */
     private array $routes = [];
 
@@ -42,7 +41,7 @@ final class Router
     }
 
     /**
-     * @throws ContainerExceptionInterface|\InvalidArgumentException|NotFoundExceptionInterface
+     * @throws \InvalidArgumentException
      */
     public function handleRequest(RequestInterface $request): ResponseInterface
     {
@@ -65,6 +64,9 @@ final class Router
         return $this->get404Response();
     }
 
+    /**
+     * @return RouteInterface[]
+     */
     public function getRoutes(): array
     {
         return $this->routes;
