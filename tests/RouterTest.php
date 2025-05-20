@@ -119,7 +119,7 @@ class RouterTest extends TestCase
             'Should return 404 Response' => [
                 'request' => RouterTest::createRequest('POST', '/non_existent_route'),
                 'expectedStatusCode' => 404,
-                'responseText' => 'Not Found',
+                'responseText' => '404 Page Not Found',
             ],
             'Static path, should return 200 Response' => [
                 'request' => RouterTest::createRequest('GET', '/'),

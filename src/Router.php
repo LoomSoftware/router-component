@@ -99,9 +99,9 @@ final class Router
     {
         return new Response(
             statusCode: 404,
-            reasonPhrase: '404 Page Not Found',
+            reasonPhrase: 'Not Found',
             headers: ['Content-Type' => 'text/html'],
-            body: StreamBuilder::build('Not Found')
+            body: StreamBuilder::build('404 Page Not Found')
         );
     }
 
