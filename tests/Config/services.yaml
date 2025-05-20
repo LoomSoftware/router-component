@@ -3,3 +3,5 @@ services:
     class: Loom\RouterComponent\Tests\Controller\IndexController
   Loom\RouterComponent\Tests\Controller\PageController:
     class: Loom\RouterComponent\Tests\Controller\PageController
+  Loom\RouterComponent\Tests\Controller\PageNotFoundController:
+    class: Loom\RouterComponent\Tests\Controller\PageNotFoundController

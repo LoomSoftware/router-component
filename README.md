@@ -39,3 +39,14 @@ $request = new Request(
   
 echo $router->handleRequest()->getBody()->getContents();
 ```
+
+```yaml
+routes:
+  app.index:
+    path: /
+    handler: App\Controller\AppController::index
+    methods: [GET]
+  page.view:
+    path: /page/{page}
+    handler: App\Controller\PageController::view
+```

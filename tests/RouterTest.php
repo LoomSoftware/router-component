@@ -56,10 +56,18 @@ class RouterTest extends TestCase
      * @throws ContainerExceptionInterface|NotFoundExceptionInterface
      */
     #[DataProvider('requestDataProvider')]
-    public function testHandleRequest(RequestInterface $request, int $expectedStatusCode, string $responseText): void
-    {
+    public function testHandleRequest(
+        RequestInterface $request,
+        int $expectedStatusCode,
+        string $responseText,
+        ?string $customHandler = null
+    ): void {
         $router = new Router($this->container);
         $router->loadRoutesFromFile(__DIR__. '/Config/routes.yaml');
+
+        if ($customHandler) {
+            $router->setNotFoundHandler($customHandler);
+        }
 
         $response = $router->handleRequest($request);
 
@@ -127,6 +135,12 @@ class RouterTest extends TestCase
                 'request' => RouterTest::createRequest('GET', '/page/123/edit'),
                 'expectedStatusCode' => 200,
                 'responseText' => 'Editing Page: 123',
+            ],
+            'Should return custom 404 Response' => [
+                'request' => RouterTest::createRequest('GET', '/not-found'),
+                'expectedStatusCode' => 404,
+                'responseText' => 'This is not the page you are looking for.',
+                'customHandler' => 'Loom\RouterComponent\Tests\Controller\PageNotFoundController::pageNotFound',
             ]
         ];
     }

@@ -7,6 +7,7 @@ namespace Loom\RouterComponent;
 use Loom\HttpComponent\Response;
 use Loom\HttpComponent\StreamBuilder;
 use Loom\RouterComponent\Interface\RouteInterface;
+use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\ContainerInterface;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
@@ -19,8 +20,15 @@ final class Router
      */
     private array $routes = [];
 
+    private string|null $notFoundHandler = null;
+
     public function __construct(private readonly ContainerInterface $container)
     {
+    }
+
+    public function setNotFoundHandler(string $handler): void
+    {
+        $this->notFoundHandler = $handler;
     }
 
     public function loadRoutesFromFile(string $filePath): void
@@ -41,7 +49,7 @@ final class Router
     }
 
     /**
-     * @throws \InvalidArgumentException
+     * @throws ContainerExceptionInterface|\InvalidArgumentException
      */
     public function handleRequest(RequestInterface $request): ResponseInterface
     {
@@ -59,6 +67,13 @@ final class Router
 
                 return $route->callHandler($request, $args);
             }
+        }
+
+        if ($this->notFoundHandler) {
+            $pageNotFoundRoute = new Route('Page Not Found', '', $this->notFoundHandler, [$request->getMethod()]);
+            $pageNotFoundRoute->setContainer($this->container);
+
+            return $pageNotFoundRoute->callHandler($request, []);
         }
 
         return $this->get404Response();
@@ -84,7 +99,7 @@ final class Router
     {
         return new Response(
             statusCode: 404,
-            reasonPhrase: 'Not Found',
+            reasonPhrase: '404 Page Not Found',
             headers: ['Content-Type' => 'text/html'],
             body: StreamBuilder::build('Not Found')
         );
