@@ -2,7 +2,7 @@
 
 <p>
 <!-- Version Badge -->
-<img src="https://img.shields.io/badge/Version-1.1.0-blue" alt="Version 1.1.0">
+<img src="https://img.shields.io/badge/Version-1.1.1-blue" alt="Version 1.1.1">
 <!-- Coverage Badge -->
 <img src="https://img.shields.io/badge/Coverage-100.00%25-1ccb3c" alt="Coverage 100.00%">
 <!-- License Badge -->
@@ -12,7 +12,7 @@
 # Installation
 
 ```shell
-composer require loomlabs/router-component
+composer require loomsoftware/router-component
 ```
 
 # Usage
